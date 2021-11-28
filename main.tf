@@ -20,6 +20,7 @@ resource "docker_container" "influxdb_container" {
   volumes {
     volume_name    = docker_volume.influxdb_volume.name
     container_path = "/data"
+    host_path      = "${path.root}/influxdb-data"
   }
   env = [
     "INFLUXD_BOLT_PATH=/data/bolt",
@@ -33,7 +34,6 @@ resource "docker_container" "influxdb_container" {
     external = var.expose_port
     internal = 8086
   }
-
 }
 
 data "external" "wait" {
@@ -47,7 +47,7 @@ data "external" "wait" {
 
 /* Setup process for InfluxDB V2 */
 module "setup_influxdb" {
-  source = "./modules/setup"
+  source = "https://github.com/rymnc/terraform-influx/tree/main/modules/setup"
 
   init_username = var.init_username
   init_password = var.init_password

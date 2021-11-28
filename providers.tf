@@ -8,5 +8,5 @@ provider "influxdb-v2-onboarding" {
 
 provider "influxdb-v2" {
   token = module.setup_influxdb.influxdb_details.token
-  url   = local.influx_url
+  url   = data.external.wait.url
 }
